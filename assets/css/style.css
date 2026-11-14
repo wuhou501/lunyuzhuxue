@@ -656,4 +656,26 @@ mark{ background:rgba(171,138,82,.28); color:inherit; padding:0 1px; border-radi
   .toast{ bottom:calc(84px + env(safe-area-inset-bottom)); }
   .znav{ flex-direction:column; gap:16px; }
   .znav a.next{ text-align:left; margin-left:0; max-width:100%; }
+
+  /* 触控与阅读细节 */
+  body{ -webkit-text-size-adjust:100%; -webkit-tap-highlight-color:transparent; }
+  .search-box input, .ask-input textarea{ font-size:16px; }
+  .chip, .tool-select{ display:inline-flex; align-items:center; min-height:38px; padding:8px 14px; font-size:13px; }
+  .btn{ min-height:42px; }
+  .icon-btn{ width:40px; height:40px; }
+  .topbar-brand strong{ font-size:16px; }
+  .hero{ padding:26px 18px 24px; }
+  .hero-actions{ gap:8px; }
+  .hero-actions .btn{ flex:1 1 0; }
+  .hero-stats{ flex-wrap:wrap; gap:16px 24px; }
+  .pian-card{ padding:14px 13px; }
+  .pian-meta{ flex-wrap:wrap; gap:4px 10px; }
+  .chapter-row{ padding:14px 4px; gap:10px; }
+  .result{ padding:14px 4px; }
+  .ai-body{ font-size:14.5px; line-height:1.8; }
+  .ai-src{ padding:10px 12px; }
+  .ai-foot .btn{ min-height:34px; padding:6px 12px; }
+  .ask-log{ padding-bottom:72px; }
+  .ask-input-wrap{ padding:12px 0 4px; }
+  .quote-text{ line-height:1.95; }
 }
