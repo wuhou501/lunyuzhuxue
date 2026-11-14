@@ -586,8 +586,11 @@ mark{ background:rgba(171,138,82,.28); color:inherit; padding:0 1px; border-radi
 }
 
 @media (max-width:900px){
+  body{ overflow-x:hidden; }
+  .app{ display:block; }
   .sidebar{ display:none; }
   .topbar{
+    width:100%;
     display:flex; align-items:center; justify-content:space-between;
     position:sticky; top:0; z-index:30;
     padding:10px 16px; padding-top:calc(10px + env(safe-area-inset-top));
