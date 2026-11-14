@@ -1,0 +1,15 @@
+{
+  "name": "lunyu-zhuxue-tests",
+  "version": "1.0.0",
+  "private": true,
+  "description": "论语助学 · 单元测试与集成测试",
+  "scripts": {
+    "test": "node core.test.js && node integration.test.js && node regression.test.js",
+    "test:unit": "node core.test.js",
+    "test:integration": "node integration.test.js",
+    "test:regression": "node regression.test.js"
+  },
+  "devDependencies": {
+    "jsdom": "^31.0.1"
+  }
+}

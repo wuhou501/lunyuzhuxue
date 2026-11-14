@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#f6f1e7" />
+<meta name="description" content="论语助学 —— 专注《论语》的智能学习工具：原文检索、章句精讲、思想概括、学习进度记录。" />
+<title>论语助学 · 一部可以问、可以读、可以记的《论语》</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="stylesheet" href="assets/css/style.css?v=6" />
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4.8A1.8 1.8 0 0 1 5.8 3H19v16H6a2 2 0 0 0-2 2z"/><path d="M4 4.8V19"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 4.5 4.5"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20h16"/><path d="M7 20v-6M12 20V7M17 20v-9"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 4 2.4 5 5.6.8-4 3.9 1 5.5-5-2.7-5 2.7 1-5.5-4-3.9 5.6-.8z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M15.5 4.5 19.5 8.5 8 20H4v-4z"/><path d="m13 7 4 4"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.3 6.3l2.8 2.8M14.9 14.9l2.8 2.8M17.7 6.3l-2.8 2.8M9.1 14.9l-2.8 2.8"/></symbol>
+</svg>
+
+<div class="app">
+
+  <aside class="sidebar">
+    <a class="brand" href="#/home">
+      <span class="brand-seal">論</span>
+      <span class="brand-text">
+        <strong>论语助学</strong>
+        <em>读得懂的《论语》</em>
+      </span>
+    </a>
+
+    <nav class="side-nav" id="sideNav"></nav>
+
+    <div class="side-foot">
+      <div class="side-stat" id="sideStat"></div>
+      <a class="side-about" href="#/about">内容标准与说明</a>
+    </div>
+  </aside>
+
+  <header class="topbar">
+    <a class="topbar-brand" href="#/home">
+      <span class="brand-seal sm">論</span>
+      <strong>论语助学</strong>
+    </a>
+    <a class="icon-btn" href="#/search" aria-label="检索">
+      <svg class="ico"><use href="#i-search"/></svg>
+    </a>
+  </header>
+
+  <main class="view" id="view" tabindex="-1"></main>
+
+  <nav class="tabbar" id="tabbar"></nav>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/js/data-pian.js?v=6"></script>
+<script src="assets/js/data-fulltext.js?v=6"></script>
+<script src="assets/js/data-zhang-1.js?v=6"></script>
+<script src="assets/js/data-zhang-2.js?v=6"></script>
+<script src="assets/js/data-knowledge.js?v=6"></script>
+<script src="assets/js/app.js?v=6"></script>
+</body>
+</html>
+
+
+
+
