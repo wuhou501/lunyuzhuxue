@@ -196,10 +196,9 @@ async function click(el) {
   /* ---------------- 7. 学习进度 ---------------- */
   group("7. 学习进度");
   await go("#/progress");
-  await test("统计与学习日历已汇总", () => {
+  await test("统计已汇总", () => {
     const t = text("#view");
     ok(t.indexOf("精讲已学") >= 0 && t.indexOf("连续学习") >= 0, "统计项缺失");
-    eq($$(".heat i").length, 35, "热力格数");
     ok($("#exportData"), "缺导出按钮");
   });
   await test("已学章句计入侧栏统计", () => {

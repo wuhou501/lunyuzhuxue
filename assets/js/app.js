@@ -1065,20 +1065,6 @@
       }
     }
 
-    var days = [], maxC = 1;
-    for (var i = 6; i >= 0; i--) {
-      var dd = dayKey(i);
-      var c = counts[dd.k] || 0;
-      if (c > maxC) maxC = c;
-      days.push({ label: ["日", "一", "二", "三", "四", "五", "六"][dd.d.getDay()], c: c });
-    }
-
-    var heat = [];
-    for (var h = 34; h >= 0; h--) {
-      var hd = dayKey(h);
-      heat.push({ c: counts[hd.k] || 0, label: (hd.d.getMonth() + 1) + "/" + hd.d.getDate() });
-    }
-
     var due = Object.keys(store.learned)
       .filter(function (id) { return zhangById[id] && Date.now() - store.learned[id] > 3 * 86400000; })
       .sort(function (a, b) { return store.learned[a] - store.learned[b]; })
@@ -1122,25 +1108,6 @@
           }).join("") +
         "</div>" +
       "</div>" +
-
-      '<section class="section">' +
-        '<div class="section-head"><h2 class="section-title">学习日历</h2><span class="section-more">近 35 天 · 点击色块查看日期</span></div>' +
-        '<div class="card" style="padding:20px 24px">' +
-          '<div class="week">' +
-            days.map(function (d) {
-              var hgt = d.c ? Math.max(8, Math.round(d.c / maxC * 76)) : 0;
-              return '<div class="wd"><i class="' + (d.c ? "" : "zero") + '" style="height:' + (d.c ? hgt : 3) + 'px"></i><small>' + d.label + "</small></div>";
-            }).join("") +
-          "</div>" +
-          '<div class="heat" title="近 35 天学习记录">' +
-            heat.map(function (x) {
-              var lv = x.c === 0 ? 0 : x.c === 1 ? 1 : x.c <= 3 ? 2 : 3;
-              return '<i class="lv' + lv + '" title="' + x.label + " · " + x.c + ' 条记录"></i>';
-            }).join("") +
-          "</div>" +
-          '<div class="heat-legend"><span>少</span><i class="lv0"></i><i class="lv1"></i><i class="lv2"></i><i class="lv3"></i><span>多</span></div>' +
-        "</div>" +
-      "</section>" +
 
       (due.length
         ? '<section class="section"><div class="section-head"><h2 class="section-title">建议复习</h2>' +

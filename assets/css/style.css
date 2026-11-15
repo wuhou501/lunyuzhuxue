@@ -504,16 +504,6 @@ mark{ background:rgba(171,138,82,.28); color:inherit; padding:0 1px; border-radi
 .bar-row .bar span{ display:block; height:100%; background:linear-gradient(90deg,var(--gold),var(--seal)); border-radius:3px; transition:width .5s ease; }
 .bar-row .num{ flex:0 0 40px; text-align:right; color:var(--ink-4); font-variant-numeric:tabular-nums; font-size:11.5px; }
 
-.week{ display:flex; align-items:flex-end; gap:10px; height:110px; padding:8px 4px 0; }
-.week .wd{ flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; height:100%; justify-content:flex-end; }
-.week .wd i{
-  display:block; width:100%; max-width:26px; border-radius:4px 4px 2px 2px;
-  background:linear-gradient(180deg,rgba(161,58,46,.75),rgba(161,58,46,.35));
-  min-height:3px; transition:height .4s ease;
-}
-.week .wd i.zero{ background:rgba(34,31,26,.08); }
-.week .wd small{ font-size:10.5px; color:var(--ink-4); }
-
 .list-simple{ display:flex; flex-direction:column; }
 .list-row{ display:flex; gap:12px; align-items:flex-start; padding:13px 18px; border-bottom:1px solid var(--line); cursor:pointer; }
 .list-row:last-child{ border-bottom:none; }
@@ -545,7 +535,7 @@ mark{ background:rgba(171,138,82,.28); color:inherit; padding:0 1px; border-radi
 }
 .toast.show{ opacity:1; transform:translate(-50%, 0); }
 
-/* ============ 检索工具条 / 学习日历 ============ */
+/* ============ 检索工具条 ============ */
 .search-tools{ display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
 .tool-select{
   padding:6px 10px; border-radius:999px; border:1px solid var(--line-2);
@@ -558,17 +548,6 @@ mark{ background:rgba(171,138,82,.28); color:inherit; padding:0 1px; border-radi
 .hist-label{ font-size:11px; color:var(--ink-4); letter-spacing:.1em; }
 .chip.ghost{ background:transparent; }
 .hist-clear{ border:none; background:transparent; font-size:11px; color:var(--ink-4); cursor:pointer; text-decoration:underline; }
-
-.heat{ display:grid; grid-template-columns:repeat(7,1fr); gap:5px; margin-top:18px; }
-.heat i{ aspect-ratio:1/1; border-radius:3px; background:rgba(34,31,26,.06); display:block; }
-.heat i.lv1{ background:rgba(161,58,46,.22); }
-.heat i.lv2{ background:rgba(161,58,46,.45); }
-.heat i.lv3{ background:rgba(161,58,46,.75); }
-.heat-legend{ display:flex; align-items:center; justify-content:flex-end; gap:5px; margin-top:10px; font-size:10.5px; color:var(--ink-4); }
-.heat-legend i{ width:11px; height:11px; border-radius:2px; background:rgba(34,31,26,.06); display:block; }
-.heat-legend i.lv1{ background:rgba(161,58,46,.22); }
-.heat-legend i.lv2{ background:rgba(161,58,46,.45); }
-.heat-legend i.lv3{ background:rgba(161,58,46,.75); }
 
 .note-item{ cursor:pointer; transition:border-color .16s ease, background .16s ease, transform .16s ease; }
 .note-item:hover{ border-color:rgba(161,58,46,.3); }
