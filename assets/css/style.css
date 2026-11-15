@@ -558,52 +558,47 @@ mark{ background:rgba(171,138,82,.28); color:inherit; padding:0 1px; border-radi
 }
 
 /* ============ 新手引导 ============ */
-.guide-mask{
-  position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center;
-  padding:20px; background:rgba(34,31,26,.42); -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px);
-  opacity:0; transition:opacity .24s ease;
-}
+.guide-mask{ position:fixed; inset:0; z-index:200; opacity:0; transition:opacity .22s ease; }
 .guide-mask.show{ opacity:1; }
-.guide-card{
-  position:relative; width:100%; max-width:540px; max-height:calc(100vh - 40px); overflow:auto;
-  background:var(--card); border:1px solid var(--line-2); border-radius:18px;
-  padding:34px 36px 26px; box-shadow:0 30px 70px -30px rgba(34,31,26,.5);
-  transform:translateY(14px); transition:transform .28s ease;
+.guide-mask.welcome{ background:rgba(34,31,26,.55); }
+.guide-spot{
+  position:fixed; left:0; top:0; width:0; height:0; border-radius:10px; pointer-events:none;
+  box-shadow:0 0 0 3px rgba(161,58,46,.85), 0 0 0 9999px rgba(34,31,26,.55);
+  transition:left .26s ease, top .26s ease, width .26s ease, height .26s ease, opacity .18s ease;
 }
-.guide-mask.show .guide-card{ transform:none; }
+.guide-card{
+  position:fixed; left:0; top:0; z-index:2; width:340px; max-width:calc(100vw - 24px);
+  max-height:calc(100vh - 24px); overflow:auto;
+  background:var(--card); border:1px solid var(--line-2); border-radius:16px;
+  padding:22px 24px 16px; box-shadow:0 24px 60px -24px rgba(34,31,26,.55);
+}
+.guide-card.center{ padding:32px 32px 24px; }
 .guide-close{
-  position:absolute; top:14px; right:14px; width:30px; height:30px; border-radius:8px;
+  position:absolute; top:10px; right:10px; width:28px; height:28px; border-radius:8px;
   display:grid; place-items:center; border:1px solid transparent; background:transparent;
   color:var(--ink-4); cursor:pointer;
 }
 .guide-close:hover{ color:var(--ink); border-color:var(--line); }
-.guide-close .ico{ width:15px; height:15px; }
-.guide-eyebrow{ font-size:11.5px; letter-spacing:.2em; color:var(--seal); }
+.guide-close .ico{ width:14px; height:14px; }
+.guide-eyebrow{ font-size:11px; letter-spacing:.18em; color:var(--seal); }
 .guide-title{
-  font-family:var(--serif); font-size:24px; font-weight:600; letter-spacing:.04em;
-  margin:10px 0 24px; color:var(--ink);
+  font-family:var(--serif); font-size:19px; font-weight:600; letter-spacing:.04em;
+  margin:8px 0 10px; color:var(--ink);
 }
-.guide-step-wrap{ display:flex; gap:16px; min-height:104px; }
-.guide-no{
-  flex:0 0 44px; width:44px; height:44px; border-radius:50%;
-  display:grid; place-items:center; font-family:var(--serif); font-size:17px; color:var(--seal);
-  border:1px solid rgba(161,58,46,.35); background:var(--seal-soft);
-}
-.guide-txt h3{ font-family:var(--serif); font-size:16px; font-weight:600; margin:6px 0 8px; letter-spacing:.04em; }
-.guide-txt p{ margin:0; font-size:13.5px; line-height:1.9; color:var(--ink-3); }
-.guide-dots{ display:flex; gap:6px; margin-top:22px; }
+.guide-card.center .guide-title{ font-size:24px; margin:10px 0 14px; }
+.guide-text{ margin:0; font-size:13px; line-height:1.85; color:var(--ink-3); }
+.guide-card.center .guide-text{ font-size:13.5px; line-height:1.9; }
+.guide-dots{ display:flex; gap:6px; margin-top:18px; }
 .guide-dot{ width:6px; height:6px; border-radius:3px; background:var(--line-2); display:block; transition:all .2s ease; }
 .guide-dot.on{ width:18px; background:var(--seal); }
 .guide-foot{
   display:flex; align-items:center; justify-content:space-between; gap:12px;
-  margin-top:24px; padding-top:18px; border-top:1px solid var(--line);
+  margin-top:16px; padding-top:14px; border-top:1px solid var(--line);
 }
-.guide-skip{
-  border:none; background:transparent; padding:6px 0; font-size:12.5px; color:var(--ink-4);
-  cursor:pointer; font-family:var(--sans);
-}
-.guide-skip:hover{ color:var(--ink-2); }
+.guide-skip{ color:var(--ink-4); background:transparent; }
+.guide-skip:hover{ color:var(--ink-2); border-color:var(--ink-4); }
 .guide-actions{ display:flex; gap:8px; }
+.guide-foot .btn{ min-height:36px; padding:7px 16px; font-size:12.5px; }
 
 /* ============ 响应式 ============ */
 @media (max-width:1180px){
@@ -681,15 +676,13 @@ mark{ background:rgba(171,138,82,.28); color:inherit; padding:0 1px; border-radi
   .chapter-row{ padding:13px 4px; }
   .about-block{ padding:20px 18px; }
   .toast{ bottom:calc(84px + env(safe-area-inset-bottom)); }
-  .guide-mask{ padding:16px; align-items:flex-end; }
-  .guide-card{ padding:26px 22px 20px; border-radius:16px; }
-  .guide-title{ font-size:21px; margin-bottom:18px; }
-  .guide-step-wrap{ gap:12px; min-height:96px; }
-  .guide-no{ flex-basis:38px; width:38px; height:38px; font-size:15px; }
-  .guide-txt h3{ font-size:15px; margin-top:4px; }
-  .guide-txt p{ font-size:13px; line-height:1.85; }
-  .guide-foot{ margin-top:18px; }
-  .guide-actions .btn{ min-height:38px; }
+  .guide-mask{ padding:0; }
+  .guide-card{ padding:20px 20px 14px; border-radius:14px; }
+  .guide-card.center{ padding:28px 24px 20px; }
+  .guide-card.center .guide-title{ font-size:21px; }
+  .guide-text{ font-size:12.5px; }
+  .guide-foot{ margin-top:14px; padding-top:12px; }
+  .guide-foot .btn{ min-height:38px; }
   .znav{ flex-direction:column; gap:16px; }
   .znav a.next{ text-align:left; margin-left:0; max-width:100%; }
 

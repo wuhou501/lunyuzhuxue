@@ -1328,6 +1328,7 @@
   var GUIDE_KEY = "zhuxue.lunyu.guide.v1";
   var guideStep = 0;
   var guideEl = null;
+  var guidePrevOverflow = "";
 
   function guideSeen() {
     try { return localStorage.getItem(GUIDE_KEY) === "1"; } catch (e) { return true; }
@@ -1338,34 +1339,105 @@
 
   var GUIDE_STEPS = [
     {
-      no: "壹",
-      title: "读原文，也读精讲",
-      text: "「篇目」收录全本 " + FULL_TOTAL + " 章原文，其中 " + TOTAL + " 章配有白话译文、字词注释与要点；首页每天推荐一章，点开即可开始。"
+      title: "欢迎使用《论语》助学",
+      text: "这是一个专注《论语》的阅读工具：全本原文、章句精讲、检索问答与学习记录。下面跟着高亮，认识页面上的几个按钮。"
     },
     {
-      no: "贰",
-      title: "检索与问答",
-      text: "「检索」可按字词或原句片段查找，支持限定篇目、只看精讲；「问答」用自然语言提问，比如“什么是仁”，回答都会给出原文出处。"
+      nav: "home",
+      title: "首页",
+      text: "首页每天推荐「今日一章」，下方还有「继续学习」，可以接着上次读到的地方继续。"
     },
     {
-      no: "叁",
-      title: "留下你的学习记录",
-      text: "每章都能标记已学、收藏、写笔记；「进度」页自动汇总完成度与连续学习天数。数据只保存在本机浏览器，不会上传。"
+      nav: "pian",
+      title: "篇目",
+      text: "按二十篇查看全本 " + FULL_TOTAL + " 章原文，其中 " + TOTAL + " 章配白话译文、注释与要点；点进章节即可标记已学。"
+    },
+    {
+      nav: "search",
+      title: "检索",
+      text: "输入字词或原句片段查找，还能限定篇目、只看精讲，结果都能回到原文。"
+    },
+    {
+      nav: "ask",
+      title: "问答",
+      text: "用自然语言提问，例如“什么是仁”“君子与小人”，回答都会列出原文出处。"
+    },
+    {
+      nav: "progress",
+      title: "进度",
+      text: "已学、阅读、收藏与笔记都汇总在这里，还有连续学习天数；数据只保存在本机浏览器。"
     }
   ];
+
+  function clampNum(v, min, max) {
+    return Math.max(min, Math.min(max, v));
+  }
+
+  function visibleNav(key) {
+    var list = document.querySelectorAll('[data-nav="' + key + '"]');
+    for (var i = 0; i < list.length; i++) {
+      var r = list[i].getBoundingClientRect();
+      if (r.width > 0 && r.height > 0) return list[i];
+    }
+    return null;
+  }
+
+  function positionGuide() {
+    if (!guideEl) return;
+    var step = GUIDE_STEPS[guideStep];
+    var spot = guideEl.querySelector(".guide-spot");
+    var card = guideEl.querySelector(".guide-card");
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var target = step.nav ? visibleNav(step.nav) : null;
+
+    guideEl.classList.toggle("welcome", !target);
+    card.classList.toggle("center", !target);
+
+    if (!target) {
+      spot.style.opacity = "0";
+      card.style.width = Math.min(460, vw - 32) + "px";
+      card.style.left = Math.max(16, (vw - card.offsetWidth) / 2) + "px";
+      card.style.top = Math.max(16, (vh - card.offsetHeight) / 2) + "px";
+      return;
+    }
+
+    spot.style.opacity = "1";
+    var r = target.getBoundingClientRect();
+    var pad = 6;
+    spot.style.left = (r.left - pad) + "px";
+    spot.style.top = (r.top - pad) + "px";
+    spot.style.width = (r.width + pad * 2) + "px";
+    spot.style.height = (r.height + pad * 2) + "px";
+
+    card.style.width = Math.min(340, vw - 24) + "px";
+    var cw = card.offsetWidth, ch = card.offsetHeight;
+    var left, top;
+    if (r.top > vh / 2) {
+      left = clampNum(r.left + r.width / 2 - cw / 2, 12, vw - cw - 12);
+      top = Math.max(12, r.top - ch - 14);
+    } else {
+      left = r.right + 18;
+      if (left + cw > vw - 12) left = Math.max(12, r.left - cw - 18);
+      top = clampNum(r.top + r.height / 2 - ch / 2, 12, vh - ch - 12);
+    }
+    card.style.left = left + "px";
+    card.style.top = top + "px";
+  }
 
   function updateGuide() {
     if (!guideEl) return;
     var s = GUIDE_STEPS[guideStep];
-    guideEl.querySelector(".guide-step-wrap").innerHTML =
-      '<div class="guide-no">' + s.no + "</div>" +
-      '<div class="guide-txt"><h3>' + s.title + "</h3><p>" + s.text + "</p></div>";
+    guideEl.querySelector(".guide-eyebrow").textContent = "新手引导 · " + (guideStep + 1) + " / " + GUIDE_STEPS.length;
+    guideEl.querySelector(".guide-title").textContent = s.title;
+    guideEl.querySelector(".guide-text").textContent = s.text;
     var dots = guideEl.querySelectorAll(".guide-dot");
     for (var i = 0; i < dots.length; i++) {
       dots[i].className = "guide-dot" + (i === guideStep ? " on" : "");
     }
     guideEl.querySelector("#guidePrev").style.visibility = guideStep === 0 ? "hidden" : "visible";
-    guideEl.querySelector("#guideNext").textContent = guideStep === GUIDE_STEPS.length - 1 ? "开始使用" : "下一步";
+    guideEl.querySelector("#guideNext").textContent =
+      guideStep === GUIDE_STEPS.length - 1 ? "开始使用" : (guideStep === 0 ? "开始了解" : "下一步");
+    positionGuide();
   }
 
   function closeGuide() {
@@ -1373,6 +1445,8 @@
     if (!guideEl) return;
     var el = guideEl;
     guideEl = null;
+    document.body.style.overflow = guidePrevOverflow;
+    window.removeEventListener("resize", positionGuide);
     el.classList.remove("show");
     setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 240);
   }
@@ -1386,14 +1460,15 @@
     mask.setAttribute("aria-modal", "true");
     mask.setAttribute("aria-label", "新手引导");
     mask.innerHTML =
+      '<div class="guide-spot"></div>' +
       '<div class="guide-card">' +
         '<button class="guide-close" type="button" aria-label="关闭">' + icon("close") + "</button>" +
-        '<div class="guide-eyebrow">首次使用 · 功能速览</div>' +
-        '<h2 class="guide-title">三步用好《论语》</h2>' +
-        '<div class="guide-step-wrap"></div>' +
+        '<div class="guide-eyebrow"></div>' +
+        '<h2 class="guide-title"></h2>' +
+        '<p class="guide-text"></p>' +
         '<div class="guide-dots">' + GUIDE_STEPS.map(function () { return '<i class="guide-dot"></i>'; }).join("") + "</div>" +
         '<div class="guide-foot">' +
-          '<button class="guide-skip" type="button">跳过</button>' +
+          '<button class="btn guide-skip" type="button">跳过</button>' +
           '<div class="guide-actions">' +
             '<button class="btn" type="button" id="guidePrev">上一步</button>' +
             '<button class="btn primary" type="button" id="guideNext">下一步</button>' +
@@ -1414,6 +1489,9 @@
         else closeGuide();
       }
     });
+    guidePrevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("resize", positionGuide);
     document.body.appendChild(mask);
     guideEl = mask;
     updateGuide();
