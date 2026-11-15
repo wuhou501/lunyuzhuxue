@@ -1324,8 +1324,105 @@
     }
   }
 
+  /* ---------- 新手引导 ---------- */
+  var GUIDE_KEY = "zhuxue.lunyu.guide.v1";
+  var guideStep = 0;
+  var guideEl = null;
+
+  function guideSeen() {
+    try { return localStorage.getItem(GUIDE_KEY) === "1"; } catch (e) { return true; }
+  }
+  function markGuideSeen() {
+    try { localStorage.setItem(GUIDE_KEY, "1"); } catch (e) { /* ignore */ }
+  }
+
+  var GUIDE_STEPS = [
+    {
+      no: "壹",
+      title: "读原文，也读精讲",
+      text: "「篇目」收录全本 " + FULL_TOTAL + " 章原文，其中 " + TOTAL + " 章配有白话译文、字词注释与要点；首页每天推荐一章，点开即可开始。"
+    },
+    {
+      no: "贰",
+      title: "检索与问答",
+      text: "「检索」可按字词或原句片段查找，支持限定篇目、只看精讲；「问答」用自然语言提问，比如“什么是仁”，回答都会给出原文出处。"
+    },
+    {
+      no: "叁",
+      title: "留下你的学习记录",
+      text: "每章都能标记已学、收藏、写笔记；「进度」页自动汇总完成度与连续学习天数。数据只保存在本机浏览器，不会上传。"
+    }
+  ];
+
+  function updateGuide() {
+    if (!guideEl) return;
+    var s = GUIDE_STEPS[guideStep];
+    guideEl.querySelector(".guide-step-wrap").innerHTML =
+      '<div class="guide-no">' + s.no + "</div>" +
+      '<div class="guide-txt"><h3>' + s.title + "</h3><p>" + s.text + "</p></div>";
+    var dots = guideEl.querySelectorAll(".guide-dot");
+    for (var i = 0; i < dots.length; i++) {
+      dots[i].className = "guide-dot" + (i === guideStep ? " on" : "");
+    }
+    guideEl.querySelector("#guidePrev").style.visibility = guideStep === 0 ? "hidden" : "visible";
+    guideEl.querySelector("#guideNext").textContent = guideStep === GUIDE_STEPS.length - 1 ? "开始使用" : "下一步";
+  }
+
+  function closeGuide() {
+    markGuideSeen();
+    if (!guideEl) return;
+    var el = guideEl;
+    guideEl = null;
+    el.classList.remove("show");
+    setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 240);
+  }
+
+  function openGuide() {
+    if (guideEl || guideSeen()) return;
+    guideStep = 0;
+    var mask = document.createElement("div");
+    mask.className = "guide-mask";
+    mask.setAttribute("role", "dialog");
+    mask.setAttribute("aria-modal", "true");
+    mask.setAttribute("aria-label", "新手引导");
+    mask.innerHTML =
+      '<div class="guide-card">' +
+        '<button class="guide-close" type="button" aria-label="关闭">' + icon("close") + "</button>" +
+        '<div class="guide-eyebrow">首次使用 · 功能速览</div>' +
+        '<h2 class="guide-title">三步用好《论语》</h2>' +
+        '<div class="guide-step-wrap"></div>' +
+        '<div class="guide-dots">' + GUIDE_STEPS.map(function () { return '<i class="guide-dot"></i>'; }).join("") + "</div>" +
+        '<div class="guide-foot">' +
+          '<button class="guide-skip" type="button">跳过</button>' +
+          '<div class="guide-actions">' +
+            '<button class="btn" type="button" id="guidePrev">上一步</button>' +
+            '<button class="btn primary" type="button" id="guideNext">下一步</button>' +
+          "</div>" +
+        "</div>" +
+      "</div>";
+    mask.addEventListener("click", function (e) {
+      if (e.target === mask || e.target.closest(".guide-close") || e.target.closest(".guide-skip")) {
+        closeGuide();
+        return;
+      }
+      if (e.target.closest("#guidePrev")) {
+        if (guideStep > 0) { guideStep--; updateGuide(); }
+        return;
+      }
+      if (e.target.closest("#guideNext")) {
+        if (guideStep < GUIDE_STEPS.length - 1) { guideStep++; updateGuide(); }
+        else closeGuide();
+      }
+    });
+    document.body.appendChild(mask);
+    guideEl = mask;
+    updateGuide();
+    setTimeout(function () { mask.classList.add("show"); }, 20);
+  }
+
   function onKeyDown(e) {
     if (e.key === "Escape") {
+      if (guideEl) { closeGuide(); return; }
       var ed = $(".note-editor.open");
       if (ed) ed.classList.remove("open");
     }
@@ -1361,5 +1458,6 @@
     window.addEventListener("hashchange", router);
     buildNav();
     router();
+    if (!guideSeen()) setTimeout(openGuide, 420);
   }
 })();

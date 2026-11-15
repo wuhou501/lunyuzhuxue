@@ -557,6 +557,54 @@ mark{ background:rgba(171,138,82,.28); color:inherit; padding:0 1px; border-radi
   border-bottom:1px solid rgba(161,58,46,.5); border-radius:2px;
 }
 
+/* ============ 新手引导 ============ */
+.guide-mask{
+  position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center;
+  padding:20px; background:rgba(34,31,26,.42); -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px);
+  opacity:0; transition:opacity .24s ease;
+}
+.guide-mask.show{ opacity:1; }
+.guide-card{
+  position:relative; width:100%; max-width:540px; max-height:calc(100vh - 40px); overflow:auto;
+  background:var(--card); border:1px solid var(--line-2); border-radius:18px;
+  padding:34px 36px 26px; box-shadow:0 30px 70px -30px rgba(34,31,26,.5);
+  transform:translateY(14px); transition:transform .28s ease;
+}
+.guide-mask.show .guide-card{ transform:none; }
+.guide-close{
+  position:absolute; top:14px; right:14px; width:30px; height:30px; border-radius:8px;
+  display:grid; place-items:center; border:1px solid transparent; background:transparent;
+  color:var(--ink-4); cursor:pointer;
+}
+.guide-close:hover{ color:var(--ink); border-color:var(--line); }
+.guide-close .ico{ width:15px; height:15px; }
+.guide-eyebrow{ font-size:11.5px; letter-spacing:.2em; color:var(--seal); }
+.guide-title{
+  font-family:var(--serif); font-size:24px; font-weight:600; letter-spacing:.04em;
+  margin:10px 0 24px; color:var(--ink);
+}
+.guide-step-wrap{ display:flex; gap:16px; min-height:104px; }
+.guide-no{
+  flex:0 0 44px; width:44px; height:44px; border-radius:50%;
+  display:grid; place-items:center; font-family:var(--serif); font-size:17px; color:var(--seal);
+  border:1px solid rgba(161,58,46,.35); background:var(--seal-soft);
+}
+.guide-txt h3{ font-family:var(--serif); font-size:16px; font-weight:600; margin:6px 0 8px; letter-spacing:.04em; }
+.guide-txt p{ margin:0; font-size:13.5px; line-height:1.9; color:var(--ink-3); }
+.guide-dots{ display:flex; gap:6px; margin-top:22px; }
+.guide-dot{ width:6px; height:6px; border-radius:3px; background:var(--line-2); display:block; transition:all .2s ease; }
+.guide-dot.on{ width:18px; background:var(--seal); }
+.guide-foot{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  margin-top:24px; padding-top:18px; border-top:1px solid var(--line);
+}
+.guide-skip{
+  border:none; background:transparent; padding:6px 0; font-size:12.5px; color:var(--ink-4);
+  cursor:pointer; font-family:var(--sans);
+}
+.guide-skip:hover{ color:var(--ink-2); }
+.guide-actions{ display:flex; gap:8px; }
+
 /* ============ 响应式 ============ */
 @media (max-width:1180px){
   .view{ padding:38px 34px 72px; }
@@ -633,6 +681,15 @@ mark{ background:rgba(171,138,82,.28); color:inherit; padding:0 1px; border-radi
   .chapter-row{ padding:13px 4px; }
   .about-block{ padding:20px 18px; }
   .toast{ bottom:calc(84px + env(safe-area-inset-bottom)); }
+  .guide-mask{ padding:16px; align-items:flex-end; }
+  .guide-card{ padding:26px 22px 20px; border-radius:16px; }
+  .guide-title{ font-size:21px; margin-bottom:18px; }
+  .guide-step-wrap{ gap:12px; min-height:96px; }
+  .guide-no{ flex-basis:38px; width:38px; height:38px; font-size:15px; }
+  .guide-txt h3{ font-size:15px; margin-top:4px; }
+  .guide-txt p{ font-size:13px; line-height:1.85; }
+  .guide-foot{ margin-top:18px; }
+  .guide-actions .btn{ min-height:38px; }
   .znav{ flex-direction:column; gap:16px; }
   .znav a.next{ text-align:left; margin-left:0; max-width:100%; }
 
